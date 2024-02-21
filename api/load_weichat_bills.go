@@ -45,6 +45,7 @@ func LoadWeiChatBills(c *gin.Context) {
 
 	// Now scanner is at the right position, create a csv reader
 	reader := csv.NewReader(strings.NewReader(csvContent))
+	reader.LazyQuotes = true
 	records, err := reader.ReadAll()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
