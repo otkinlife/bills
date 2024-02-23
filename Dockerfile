@@ -8,6 +8,7 @@ WORKDIR /build
 COPY . .
 
 # 编译项目，生成二进制文件
+RUN go mod tidy
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -o main .
 
 # 使用scratch作为基础镜像，创建最终的运行环境
