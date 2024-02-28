@@ -1,0 +1,60 @@
+<div class="container">
+  <iframe id="dashboard-iframe" src="" width="100%" height="800" frameborder="0" style="display: none;"></iframe>
+  <div id="bill-maintenance-content" style="display: none;">
+    <table id="bill-table" class="table table-striped table-hover" contenteditable="true">
+      <thead>
+      <tr>
+        <th>产品</th>
+        <th>金额</th>
+        <th>标签</th>
+        <th>收/支</th>
+        <th>交易时间</th>
+        <th>状态</th>
+      </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" id="previous-page"><a class="page-link" href="#">上一页</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item" id="next-page"><a class="page-link" href="#">下一页</a></li>
+        <li id="go-page" class="form-inline">
+          <input type="number" class="form-control mr-2" id="page-input" min="1" style="max-width: 80px;">
+          <button class="btn btn-primary" id="go-button">Go</button>
+        </li>
+      </ul>
+
+    </nav>
+  </div>
+  <div id="upload-content">
+    <h1 class="mt-5 text-center">上传支付账单</h1>
+    <form id="upload-form" class="mt-4">
+      <div class="form-group">
+        <label for="platform">平台</label>
+        <select class="form-control" id="platform" name="platform">
+          <option value="weichat">微信</option>
+          <option value="alipay">支付宝</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="name">姓名</label>
+        <select class="form-control" id="name" name="name">
+          <option>贾凯超</option>
+          <option>高宇</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="file">文件</label>
+        <input type="file" class="form-control-file" id="file" name="file">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">提交</button>
+    </form>
+  </div>
+</div>
+
+<!-- Loading animation overlay -->
+<div id="loading"></div>

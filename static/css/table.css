@@ -1,0 +1,14 @@
+.text-overflow {
+    max-width: 200px; /* 你的最大宽度 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-overflow:hover {
+    overflow: visible;
+    white-space: normal;
+    z-index: 1;
+    position: relative;
+    background-color: #fff; /* 你的背景颜色 */
+}
