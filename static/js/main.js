@@ -1,4 +1,4 @@
-import {initBillMaintenance} from "./bill_maintenance.js";
+import {initFilterForm} from "./bill_maintenance.js";
 
 $(document).ready(function () {
     // Add an event listener to the navigation items
@@ -22,7 +22,7 @@ $(document).ready(function () {
         } else if (this.children[0].id === 'bill-maintenance-link') {
             $('#upload-content').hide();
             $('#dashboard-iframe').hide();
-            initBillMaintenance(1);
+            initFilterForm(1);
             $('#bill-maintenance-content').show();
         } else {
             $('#dashboard-iframe').hide(); // hide iframe when main content is shown

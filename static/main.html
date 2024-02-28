@@ -1,6 +1,40 @@
 <div class="container">
   <iframe id="dashboard-iframe" src="" width="100%" height="800" frameborder="0" style="display: none;"></iframe>
   <div id="bill-maintenance-content" style="display: none;">
+    <form id="filter-form">
+      <div>
+        <label for="date-range">日期范围：</label>
+        <input type="date" id="start_date">
+        <input type="date" id="end_date">
+      </div>
+      <div>
+        <label for="value-range">金额范围：</label>
+        <input type="number" id="min_value">
+        <input type="number" id="max_value">
+      </div>
+      <div>
+        <label for="channel">渠道：</label>
+        <select id="channel"></select>
+      </div>
+      <div>
+        <label for="tag">标签：</label>
+        <select id="tag"></select>
+      </div>
+      <div>
+        <label for="transaction_type">交易类型：</label>
+        <select id="transaction_type"></select>
+      </div>
+      <div>
+        <label for="charge_name">交易人：</label>
+        <select id="charge_name"></select>
+      </div>
+      <div>
+        <label for="status">状态：</label>
+        <select id="status"></select>
+      </div>
+      <button type="submit">过滤</button>
+    </form>
+
     <table id="bill-table" class="table table-striped table-hover" contenteditable="true">
       <thead>
       <tr>

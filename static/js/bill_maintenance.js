@@ -1,10 +1,17 @@
-export function initBillMaintenance(page) {
+function initBillMaintenance(page, filters = {}) {
     $.ajax({
         url: 'http://127.0.0.1:8228/list',
         type: 'POST',
         data: JSON.stringify({
             page: page,
-            page_size: 10
+            page_size: 10,
+            status: filters.status,
+            channel: filters.channel,
+            tag: filters.tag,
+            transaction_type: filters.transaction_type,
+            charge_name: filters.name,
+            date_range:[filters.date_range[0],filters.date_range[1]],
+            value_range:[filters.value_range[0],filters.value_range[1]]
         }),
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
@@ -87,4 +94,57 @@ export function initBillMaintenance(page) {
             initBillMaintenance(page);
         };
     }
+}
+
+export function initFilterForm(page) {
+    // Fetch the filter options from the server
+    fetchFilterOptions().then(fillFilterForm);
+
+    // Handle the form submission
+    const filterForm = document.getElementById('filter-form');
+    filterForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Get the filter values
+        const filters = {
+            date_range: [document.getElementById('start_date').value, document.getElementById('end_date').value],
+            value_range: [document.getElementById('min_value').value, document.getElementById('max_value').value],
+            channel: document.getElementById('channel').value,
+            tag: document.getElementById('tag').value,
+            transaction_type: document.getElementById('transaction_type').value,
+            name: document.getElementById('charge_name').value,
+            status: document.getElementById('status').value
+        };
+
+        // Call the function to filter the table data
+        filterTableData(page, filters);
+    });
+}
+
+function fetchFilterOptions() {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: '/list_dict',
+            method: 'GET',
+            success: resolve,
+            error: reject
+        });
+    });
+}
+
+function fillFilterForm(data) {
+    // Fill the select elements with the received options
+    for (let key in data.data) {
+        console.log(key);
+        let select = document.getElementById(key);
+        data.data[key].forEach(function (option) {
+            let optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+    }
+}
+
+function filterTableData(page, filters) {
+    initBillMaintenance(page, filters);
 }
