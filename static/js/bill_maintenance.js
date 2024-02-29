@@ -44,6 +44,20 @@ function fillFilterForm(data) {
         data.data[key].forEach(function (option) {
             select.appendChild(createOptionElement(option));
         });
+        var tagDatalist = $('#tags');
+        tagDatalist.empty();
+        data.data["tag"].forEach(function (tag) {
+            var option = $('<option>');
+            option.val(tag);
+            tagDatalist.append(option);
+        });
+        var statusList = $('#charge_status');
+        statusList.empty();
+        data.data["status"].forEach(function (status) {
+            var option = $('<option>');
+            option.val(status);
+            statusList.append(option);
+        });
     }
 }
 
@@ -93,14 +107,71 @@ function initBillMaintenance(page, filters = {}) {
 
             $.each(data.list, function (i, bill) {
                 var tr = $('<tr>');
-                tr.append($('<td class="text-overflow">').text(bill.Goods));
-                tr.append($('<td class="text-overflow">').text(bill.Value));
-                tr.append($('<td class="text-overflow">').text(bill.Tag));
-                tr.append($('<td class="text-overflow">').text(bill.TransactionType));
-                tr.append($('<td class="text-overflow">').text(bill.ChargeTime));
-                tr.append($('<td class="text-overflow">').text(bill.Status));
+                tr.append($('<td class="text-overflow goods">').text(bill.Goods));
+                tr.append($('<td class="text-overflow value">').text(bill.Value));
+                tr.append($('<td class="text-overflow tag">').text(bill.Tag));
+                tr.append($('<td class="text-overflow transactionType">').text(bill.TransactionType));
+                tr.append($('<td class="text-overflow chargeTime">').text(bill.ChargeTime));
+                tr.append($('<td class="text-overflow status">').text(bill.Status));
+                tr.append(
+                    $('<td>').append(
+                        $('<button class="btn btn-primary mr-2">').text('Update').on('click', function () {
+                            if (confirm('Are you sure you want to update this record?')) {
+                                var $row = $(this).closest('tr');
+                                var goods = $row.find('.goods').text();
+                                var value = $row.find('.value').text();
+                                var tag = $row.find('.tag').text();
+                                var transactionType = $row.find('.transactionType').text();
+                                var chargeTime = $row.find('.chargeTime').text();
+                                var status = $row.find('.status').text();
+                                // Call /update_one method
+                                $.ajax({
+                                    url: '/update_one',
+                                    method: 'POST',
+                                    data: JSON.stringify({
+                                        ID: bill.ID,
+                                        Goods: goods,
+                                        Value: value,
+                                        Tag: tag,
+                                        TransactionType: transactionType,
+                                        ChargeTime: chargeTime,
+                                        Status: status
+                                    }),
+                                    contentType: 'application/json',
+                                    success: function () {
+                                        alert('Record updated successfully!');
+                                    },
+                                    error: function () {
+                                        alert('Failed to update record!');
+                                    }
+                                });
+                            }
+                        }),
+                        $('<button class="btn btn-dark">').text('Delete').on('click', function () {
+                            if (confirm('Are you sure you want to delete this record?')) {
+                                // Call /delete_one method
+                                $.ajax({
+                                    url: '/delete_one',
+                                    method: 'POST',
+                                    data: JSON.stringify({
+                                        ID: bill.ID,
+                                    }),
+                                    contentType: 'application/json',
+                                    success: function () {
+                                        alert('Record deleted successfully!');
+                                        tr.remove(); // Remove the row from the table
+                                    },
+                                    error: function () {
+                                        alert('Failed to delete record!');
+                                    }
+                                });
+                            }
+                        })
+                    )
+                );
                 tbody.append(tr);
             });
+
 
             // Update the pagination
             var pagination = $('.pagination');
@@ -163,4 +234,36 @@ function initBillMaintenance(page, filters = {}) {
 
 $(document).ready(function() {
     handleFilterForm(1);  // Initialize the first page
+    // Show the new bill modal when the new bill button is clicked
+    $('#new-bill-btn').on('click', function () {
+        $('#new-bill-modal').modal('show');
+    });
+
+    // Submit the new bill form when the submit button is clicked
+    $('#submit-new-bill-btn').on('click', function () {
+        $.ajax({
+            url: '/create_one',
+            type: 'POST',
+            data: JSON.stringify($('#new-bill-form').serializeArray().reduce(function (obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {})),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // Hide the new bill modal
+                $('#new-bill-modal').modal('hide');
+
+                // Refresh the bill maintenance table
+                handleFilterForm(1);
+            },
+            error: function (xhr, status, error) {
+                alert('创建账单失败：' + error);
+            }
+        });
+    });
+    $('#generate-id-btn').on('click', function () {
+        var currentTime = new Date().toISOString();
+        var hash = CryptoJS.MD5(currentTime).toString();
+        $('#id').val(hash);
+    });
 });

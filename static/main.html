@@ -1,6 +1,6 @@
 <div class="container">
   <iframe id="dashboard-iframe" src="" width="100%" height="800" frameborder="0" style="display: none;"></iframe>
-  <div id="bill-maintenance-content" style="display: none;">
+  <div id="bill-maintenance-content" style="display: none;padding-top: 15px">
     <form id="filter-form" class="form-inline flex-wrap">
       <div class="form-group mb-2 mr-2">
         <label for="date-range" class="mr-2">日期范围：</label>
@@ -33,7 +33,105 @@
         <select class="form-control mr-2" id="status"></select>
       </div>
       <button type="submit" class="btn btn-primary mb-2">过滤</button>
+      <button id="new-bill-btn" class="btn btn-primary mb-2 ml-2">新建</button>
     </form>
+    <!-- New bill modal -->
+    <div class="modal fade" id="new-bill-modal" tabindex="-1" role="dialog" aria-labelledby="newBillModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newBillModalLabel">新建账单</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- New bill form -->
+            <form id="new-bill-form" class="form-horizontal">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="id">ID</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="id" name="ID" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="generate-id-btn">Generate</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="charge-time">Charge Time</label>
+                  <input type="datetime-local" class="form-control" id="charge-time" name="ChargeTime" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="value">Value</label>
+                  <input type="number" step="0.01" class="form-control" id="value" name="Value" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="channel">Channel</label>
+                  <select class="form-control" id="channel" name="Channel" required>
+                    <option>支付宝</option>
+                    <option>微信</option>
+                    <option>银行卡</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="goods">Goods</label>
+                  <input type="text" class="form-control" id="goods" name="Goods" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="tag">Tag</label>
+                  <input list="tags" class="form-control" id="tag" name="Tag" required>
+                  <datalist id="tags">
+                    <!-- The options will be filled dynamically -->
+                  </datalist>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="transaction-type">Transaction Type</label>
+                  <select class="form-control" id="transaction-type" name="TransactionType" required>
+                    <option>收入</option>
+                    <option>支出</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="sub-type">Sub Type</label>
+                  <input type="text" class="form-control" id="sub-type" name="SubType" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="status">Status</label>
+                  <input list="charge_status" class="form-control" id="status" name="Status" required>
+                  <datalist id="charge_status">
+                    <!-- The options will be filled dynamically -->
+                  </datalist>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Name</label>
+                  <select class="form-control" id="name" name="Name" required>
+                    <option>贾凯超</option>
+                    <option>高宇</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea class="form-control" id="notes" name="Notes" required></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            <button type="button" id="submit-new-bill-btn" class="btn btn-primary">提交</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <table id="bill-table" class="table table-striped table-hover" contenteditable="true">
       <thead>
       <tr>

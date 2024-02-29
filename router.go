@@ -14,4 +14,7 @@ func Router(r *gin.Engine) {
 	r.POST("/load_alipay_bills", api.LoadAliPayBills)
 	r.POST("/list", api.List)
 	r.GET("/list_dict", api.ListDict)
+	r.POST("/create_one", api.CreateOne)
+	r.POST("/update_one", api.UpdateOne)
+	r.POST("/delete_one", api.DeleteOne)
 }
