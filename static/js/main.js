@@ -1,5 +1,3 @@
-import {initFilterForm} from "./bill_maintenance.js";
-
 $(document).ready(function () {
     // Add an event listener to the navigation items
     $('.nav-item').on('click', function () {
@@ -22,7 +20,6 @@ $(document).ready(function () {
         } else if (this.children[0].id === 'bill-maintenance-link') {
             $('#upload-content').hide();
             $('#dashboard-iframe').hide();
-            initFilterForm(1);
             $('#bill-maintenance-content').show();
         } else {
             $('#dashboard-iframe').hide(); // hide iframe when main content is shown
@@ -30,12 +27,11 @@ $(document).ready(function () {
             $('#upload-content').show();
         }
 
-
         // Simulate a delay for loading the new page
         setTimeout(function () {
             // Hide the loading animation
             $('#loading').hide();
-        }, 2000);
+        }, 500);
     });
 
     $('#upload-form').on('submit', function (e) {

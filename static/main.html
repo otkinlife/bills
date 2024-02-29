@@ -1,40 +1,39 @@
 <div class="container">
   <iframe id="dashboard-iframe" src="" width="100%" height="800" frameborder="0" style="display: none;"></iframe>
   <div id="bill-maintenance-content" style="display: none;">
-    <form id="filter-form">
-      <div>
-        <label for="date-range">日期范围：</label>
-        <input type="date" id="start_date">
-        <input type="date" id="end_date">
+    <form id="filter-form" class="form-inline flex-wrap">
+      <div class="form-group mb-2 mr-2">
+        <label for="date-range" class="mr-2">日期范围：</label>
+        <input type="date" class="form-control mr-2" id="start_date">
+        <input type="date" class="form-control mr-2" id="end_date">
       </div>
-      <div>
-        <label for="value-range">金额范围：</label>
-        <input type="number" id="min_value">
-        <input type="number" id="max_value">
+      <div class="form-group mb-2 mr-2">
+        <label for="value-range" class="mr-2">金额范围：</label>
+        <input type="number" class="form-control mr-2" id="min_value">
+        <input type="number" class="form-control mr-2" id="max_value">
       </div>
-      <div>
-        <label for="channel">渠道：</label>
-        <select id="channel"></select>
+      <div class="form-group mb-2 mr-2">
+        <label for="channel" class="mr-2">渠道：</label>
+        <select class="form-control mr-2" id="channel"></select>
       </div>
-      <div>
-        <label for="tag">标签：</label>
-        <select id="tag"></select>
+      <div class="form-group mb-2 mr-2">
+        <label for="tag" class="mr-2">标签：</label>
+        <select class="form-control mr-2" id="tag"></select>
       </div>
-      <div>
-        <label for="transaction_type">交易类型：</label>
-        <select id="transaction_type"></select>
+      <div class="form-group mb-2 mr-2">
+        <label for="transaction_type" class="mr-2">交易类型：</label>
+        <select class="form-control mr-2" id="transaction_type"></select>
       </div>
-      <div>
-        <label for="charge_name">交易人：</label>
-        <select id="charge_name"></select>
+      <div class="form-group mb-2 mr-2">
+        <label for="charge_name" class="mr-2">交易人：</label>
+        <select class="form-control mr-2" id="charge_name"></select>
       </div>
-      <div>
-        <label for="status">状态：</label>
-        <select id="status"></select>
+      <div class="form-group mb-2 mr-2">
+        <label for="status" class="mr-2">状态：</label>
+        <select class="form-control mr-2" id="status"></select>
       </div>
-      <button type="submit">过滤</button>
+      <button type="submit" class="btn btn-primary mb-2">过滤</button>
     </form>
-
     <table id="bill-table" class="table table-striped table-hover" contenteditable="true">
       <thead>
       <tr>
@@ -56,10 +55,6 @@
         <li class="page-item"><a class="page-link" href="#">2</a></li>
         <li class="page-item"><a class="page-link" href="#">3</a></li>
         <li class="page-item" id="next-page"><a class="page-link" href="#">下一页</a></li>
-        <li id="go-page" class="form-inline">
-          <input type="number" class="form-control mr-2" id="page-input" min="1" style="max-width: 80px;">
-          <button class="btn btn-primary" id="go-button">Go</button>
-        </li>
       </ul>
 
     </nav>

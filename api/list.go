@@ -45,30 +45,50 @@ func List(c *gin.Context) {
 	if len(req.DateRange) == 2 {
 		start, _ := time.Parse("2006-01-02", req.DateRange[0])
 		end, _ := time.Parse("2006-01-02", req.DateRange[1])
-		tx = tx.Where("charge_time BETWEEN ? AND ?", start, end)
+		if req.DateRange[0] == "" && req.DateRange[1] != "" {
+			tx = tx.Where("charge_time <= ?", end)
+		}
+		if req.DateRange[0] != "" && req.DateRange[1] == "" {
+			tx = tx.Where("charge_time >= ?", start)
+		}
+		if req.DateRange[0] != "" && req.DateRange[1] != "" {
+			tx = tx.Where("charge_time BETWEEN ? AND ?", start, end)
+		}
 	}
 
 	if len(req.ValueRange) == 2 {
-		tx = tx.Where("value BETWEEN ? AND ?", req.ValueRange[0], req.ValueRange[1])
+		if req.ValueRange[0] > req.ValueRange[1] {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "value_range[0] should be less than value_range[1]"})
+			return
+		}
+		if req.ValueRange[0] == 0 && req.ValueRange[1] > 0 {
+			tx = tx.Where("value <= ?", req.ValueRange[1])
+		}
+		if req.ValueRange[0] > 0 && req.ValueRange[1] == 0 {
+			tx = tx.Where("value >= ?", req.ValueRange[0])
+		}
+		if req.ValueRange[0] > 0 && req.ValueRange[1] > 0 {
+			tx = tx.Where("value BETWEEN ? AND ?", req.ValueRange[0], req.ValueRange[1])
+		}
 	}
 
-	if req.Channel != "" {
+	if req.Channel != "" && req.Channel != "不限" {
 		tx = tx.Where("channel = ?", req.Channel)
 	}
 
-	if req.Tag != "" {
+	if req.Tag != "" && req.Tag != "不限" {
 		tx = tx.Where("tag = ?", req.Tag)
 	}
 
-	if req.TransactionType != "" {
+	if req.TransactionType != "" && req.TransactionType != "不限" {
 		tx = tx.Where("transaction_type = ?", req.TransactionType)
 	}
 
-	if req.Status != "" {
+	if req.Status != "" && req.Status != "不限" {
 		tx = tx.Where("status = ?", req.Status)
 	}
 
-	if req.Name != "" {
+	if req.Name != "" && req.Name != "不限" {
 		tx = tx.Where("name = ?", req.Name)
 	}
 	tx.Count(&total)

@@ -30,11 +30,11 @@ func ListDict(c *gin.Context) {
 	var statuses []string
 	var names []string
 
-	db.Model(&model.Bill{}).Distinct().Pluck("channel", &channels)
-	db.Model(&model.Bill{}).Distinct().Pluck("tag", &tags)
-	db.Model(&model.Bill{}).Distinct().Pluck("transaction_type", &transactionTypes)
-	db.Model(&model.Bill{}).Distinct().Pluck("status", &statuses)
-	db.Model(&model.Bill{}).Distinct().Pluck("name", &names)
+	db.Model(&model.Bill{}).Distinct().Where("channel <> ''").Pluck("channel", &channels)
+	db.Model(&model.Bill{}).Distinct().Where("tag <> ''").Pluck("tag", &tags)
+	db.Model(&model.Bill{}).Distinct().Where("transaction_type <> ''").Pluck("transaction_type", &transactionTypes)
+	db.Model(&model.Bill{}).Distinct().Where("status <> ''").Pluck("status", &statuses)
+	db.Model(&model.Bill{}).Distinct().Where("name <> ''").Pluck("name", &names)
 
 	res := ListDictResponse{
 		Code: 200,
