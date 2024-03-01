@@ -39,7 +39,7 @@ $(document).ready(function () {
 
         var formData = new FormData(this);
         var platform = $('#platform').val();
-        var url = platform === 'weichat' ? 'http://127.0.0.1:8228/load_weichat_bills' : 'http://127.0.0.1:8228/load_alipay_bills';
+        var url = platform === 'weichat' ? '/load_weichat_bills' : '/load_alipay_bills';
         $.ajax({
             type: 'POST',
             url: url,

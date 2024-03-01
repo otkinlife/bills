@@ -87,7 +87,7 @@ function handleFilterForm(page) {
 
 function initBillMaintenance(page, filters = {}) {
     $.ajax({
-        url: 'http://127.0.0.1:8228/list',
+        url: '/list',
         type: 'POST',
         data: JSON.stringify({
             page: page,
