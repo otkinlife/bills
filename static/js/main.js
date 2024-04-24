@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         if (this.children[0].id === 'dashboard-link') {
             // If the dashboard link was clicked, show the dashboard iframe
-            var dashboardUrl = 'http://192.168.31.250:3000/public-dashboards/560339bac6dc41a3ab2d67f0b2a37973';
+            var dashboardUrl = 'http://dev.com:3000/d-solo/ddjojuc52rsowf/e694af-e587ba-e79c8b-e69dbf?orgId=1&from=1698134270432&to=1713945470432&panelId=1" width="450" height="200';
             $('#dashboard-iframe').attr('src', dashboardUrl);
             $('#dashboard-iframe').show();
             $('#bill-maintenance-content').hide(); // hide main content when iframe is shown
